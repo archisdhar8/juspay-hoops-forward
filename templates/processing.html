@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Payment status | Hoops Forward{% endblock %}
+{% block content %}
+<section class="status-shell">
+  <div class="status-mark pending" aria-hidden="true">···</div>
+  <p class="eyebrow">Payment status</p>
+  <h1>Your donation is {{ status|replace('_', ' ') }}.</h1>
+  <p class="page-lede">We checked this status directly with Hyperswitch. Do not submit a second donation until the first reaches a final state.</p>
+  <div class="confirmation-card">
+    <dl>
+      <div><dt>Donation reference</dt><dd>{{ donation_reference }}</dd></div>
+      <div><dt>Payment ID</dt><dd class="mono">{{ payment_id }}</dd></div>
+      <div><dt>Status</dt><dd><span class="status-pill pending">{{ status|replace('_', ' ') }}</span></dd></div>
+    </dl>
+  </div>
+  <a class="secondary-button" href="/payment/return?payment_id={{ payment_id }}&donation_ref={{ donation_reference }}">Check again</a>
+</section>
+{% endblock %}

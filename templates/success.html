@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Donation confirmed | Hoops Forward{% endblock %}
+{% block content %}
+<section class="status-shell">
+  <div class="status-mark success" aria-hidden="true">✓</div>
+  <p class="eyebrow">Payment verified</p>
+  <h1>You moved the game forward.</h1>
+  <p class="page-lede">Hyperswitch reports this sandbox donation as successfully completed.</p>
+  <div class="confirmation-card">
+    <dl>
+      <div><dt>Donation reference</dt><dd>{{ donation_reference }}</dd></div>
+      <div><dt>Payment ID</dt><dd class="mono">{{ payment_id }}</dd></div>
+      <div><dt>Status</dt><dd><span class="status-pill success">Succeeded</span></dd></div>
+      {% if campaign %}<div><dt>Campaign</dt><dd>{{ campaign.name }}</dd></div>{% endif %}
+    </dl>
+  </div>
+  <p class="fine-print">This is a sandbox demonstration and is not a tax receipt. No real funds were transferred.</p>
+  <a class="secondary-button" href="/">Return to campaign</a>
+</section>
+{% endblock %}

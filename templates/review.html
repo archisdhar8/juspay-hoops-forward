@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Review your donation | Hoops Forward{% endblock %}
+{% block content %}
+<section class="page-shell">
+  <a class="back-link" href="/">← Edit donation</a>
+  <div class="review-layout">
+    <div>
+      <p class="eyebrow">Final check</p>
+      <h1>Review your impact.</h1>
+      <p class="page-lede">Confirm the details below. Your card information will be entered securely on the Hyperswitch-hosted checkout.</p>
+    </div>
+    <div class="receipt-card">
+      <div class="receipt-header">
+        <span>One-time donation</span>
+        <span>USD</span>
+      </div>
+      <div class="receipt-campaign">
+        <span class="receipt-icon" aria-hidden="true">HF</span>
+        <div><small>Supporting</small><strong>{{ donation.campaign.name }}</strong></div>
+      </div>
+      <dl class="receipt-lines">
+        <div><dt>Program gift</dt><dd>{{ donation.gift_display }}</dd></div>
+        {% if donation.cover_fees %}<div><dt>Processing-cost contribution</dt><dd>{{ donation.fee_display }}</dd></div>{% endif %}
+        <div class="receipt-total"><dt>Total</dt><dd>{{ donation.total_display }}</dd></div>
+      </dl>
+      <div class="donor-summary">
+        <small>Donor</small>
+        <strong>{{ 'Anonymous donor' if donation.anonymous else donation.donor_name }}</strong>
+        <span>{{ donation.donor_email }}</span>
+      </div>
+
+      <form action="/payments" method="post">
+        <input type="hidden" name="campaign_id" value="{{ donation.campaign_id }}">
+        <input type="hidden" name="amount" value="{{ '%.2f'|format(donation.gift_cents / 100) }}">
+        <input type="hidden" name="donor_name" value="{{ donation.donor_name }}">
+        <input type="hidden" name="donor_email" value="{{ donation.donor_email }}">
+        {% if donation.anonymous %}<input type="hidden" name="anonymous" value="true">{% endif %}
+        {% if donation.cover_fees %}<input type="hidden" name="cover_fees" value="true">{% endif %}
+        <button class="primary-button full" type="submit" {% if not configured %}disabled{% endif %}>
+          Continue to secure payment <span aria-hidden="true">→</span>
+        </button>
+      </form>
+      {% if not configured %}<p class="config-warning">Add `HYPERSWITCH_API_KEY` to enable checkout.</p>{% endif %}
+      <div class="trust-row"><span>Server-validated total</span><span>Sandbox payment</span><span>No card data stored</span></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

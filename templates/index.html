@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Hoops Forward | Fund the next generation{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Every kid deserves a place to play</p>
+    <h1>Open the court.<br><em>Change the game.</em></h1>
+    <p class="hero-lede">Your gift puts equipment in young athletes' hands, covers registration fees, and keeps community courts open.</p>
+    <div class="impact-strip" aria-label="Campaign impact">
+      <div><strong>1,240</strong><span>players supported</span></div>
+      <div><strong>38</strong><span>community partners</span></div>
+      <div><strong>92¢</strong><span>of every dollar to programs</span></div>
+    </div>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="court-lines"></div>
+    <div class="ball"><span></span></div>
+    <p>Built for<br>the next<br>possession.</p>
+  </div>
+</section>
+
+<section class="donation-section" id="donate">
+  <div class="section-intro">
+    <p class="eyebrow">Make your impact</p>
+    <h2>Choose where your gift goes.</h2>
+    <p>One secure, one-time donation. You will review everything before entering payment details.</p>
+  </div>
+
+  <form class="donation-card" action="/review" method="post" novalidate>
+    {% if error %}<div class="form-error" role="alert">{{ error }}</div>{% endif %}
+    {% if not configured %}<div class="config-note">Checkout is not configured yet. You can still preview the donation journey.</div>{% endif %}
+
+    <fieldset>
+      <legend>1. Select a campaign</legend>
+      <div class="campaign-grid">
+        {% for campaign_id, campaign in campaigns.items() %}
+        <label class="campaign-option">
+          <input type="radio" name="campaign_id" value="{{ campaign_id }}" {% if (form and form.campaign_id == campaign_id) or (not form and campaign_id == 'scholarships') %}checked{% endif %}>
+          <span class="campaign-copy">
+            <span class="campaign-number">0{{ loop.index }}</span>
+            <strong>{{ campaign.name }}</strong>
+            <small>{{ campaign.description }}</small>
+          </span>
+        </label>
+        {% endfor %}
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>2. Choose an amount</legend>
+      <div class="amount-grid" data-amount-buttons>
+        {% for preset in [25, 50, 100] %}
+        <button type="button" class="amount-button{% if (form and form.amount == preset|string) or (not form and preset == 50) %} selected{% endif %}" data-amount="{{ preset }}">${{ preset }}</button>
+        {% endfor %}
+        <label class="custom-amount">
+          <span>$</span>
+          <input id="amount" name="amount" inputmode="decimal" min="5" max="1000" step="0.01" value="{{ form.amount if form else '50' }}" aria-label="Custom donation amount" required>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>3. Your details</legend>
+      <div class="field-grid">
+        <label>
+          <span>Name</span>
+          <input type="text" name="donor_name" maxlength="80" autocomplete="name" value="{{ form.donor_name if form else '' }}" placeholder="Your name">
+        </label>
+        <label>
+          <span>Email for receipt</span>
+          <input type="email" name="donor_email" autocomplete="email" value="{{ form.donor_email if form else '' }}" placeholder="you@example.com" required>
+        </label>
+      </div>
+      <div class="check-row">
+        <label class="check-option">
+          <input type="checkbox" name="anonymous" {% if form and form.anonymous %}checked{% endif %}>
+          <span><strong>Make my gift anonymous</strong><small>Your name will not appear in campaign recognition.</small></span>
+        </label>
+        <label class="check-option">
+          <input type="checkbox" name="cover_fees" {% if form and form.cover_fees %}checked{% endif %}>
+          <span><strong>Help cover card processing</strong><small>Add the exact estimated cost so your full gift reaches programs.</small></span>
+        </label>
+      </div>
+    </fieldset>
+
+    <button class="primary-button" type="submit">Review my donation <span aria-hidden="true">→</span></button>
+    <p class="fine-print">No card information is collected on this site. Payment is completed on Hyperswitch's hosted sandbox checkout.</p>
+  </form>
+</section>
+{% endblock %}

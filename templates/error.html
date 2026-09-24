@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Payment issue | Hoops Forward{% endblock %}
+{% block content %}
+<section class="status-shell">
+  <div class="status-mark error" aria-hidden="true">!</div>
+  <p class="eyebrow">We could not continue</p>
+  <h1>Your card was not charged here.</h1>
+  <p class="page-lede">{{ message }}</p>
+  {% if payment_id %}<p class="fine-print">Payment ID: <span class="mono">{{ payment_id }}</span></p>{% endif %}
+  <a class="secondary-button" href="/">Return to donation</a>
+</section>
+{% endblock %}

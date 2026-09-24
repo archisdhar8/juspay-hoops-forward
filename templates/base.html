@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Hoops Forward funds youth basketball access through secure sandbox donations.">
+    <title>{% block title %}Hoops Forward{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('static', path='/favicon.svg') }}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+  </head>
+  <body>
+    <div class="sandbox-banner">
+      Sandbox demonstration <span aria-hidden="true">·</span> No real charges
+    </div>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Hoops Forward home">
+        <span class="brand-mark" aria-hidden="true">HF</span>
+        <span>Hoops Forward</span>
+      </a>
+      <span class="secure-label">Secure checkout by Hyperswitch</span>
+    </header>
+    <main>{% block content %}{% endblock %}</main>
+    <footer class="site-footer">
+      <p>Prototype for demonstration purposes. Hoops Forward is a fictional nonprofit.</p>
+      <p>Payments run only in the Juspay Hyperswitch sandbox.</p>
+    </footer>
+    <script src="{{ url_for('static', path='/app.js') }}" defer></script>
+  </body>
+</html>
