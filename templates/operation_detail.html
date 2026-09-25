@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Donation operations | Hoops Forward{% endblock %}
+{% block content %}
+<section class="ops-shell">
+  <a class="back-link" href="/operations">← Payment operations</a>
+  <div class="ops-heading compact">
+    <div>
+      <p class="eyebrow">Donation investigation</p>
+      <h1>{{ donation.id }}</h1>
+      <p>{{ donation.campaign.name }} · {{ donor_display }} · {{ donation.status }}</p>
+    </div>
+  </div>
+  {% if notice %}<div class="ops-notice">{{ notice }}</div>{% endif %}
+
+  <section>
+    <div class="ops-section-heading"><h2>Payment attempts</h2><span>{{ attempts|length }}</span></div>
+    <div class="ops-card-list">
+      {% for attempt in attempts %}
+      <article class="ops-card">
+        <div><small>Attempt ID</small><strong class="mono">{{ attempt.id }}</strong></div>
+        <div><small>Hyperswitch payment</small><strong class="mono">{{ attempt.hyperswitch_payment_id or 'Not assigned' }}</strong></div>
+        <div><small>Status</small><strong>{{ attempt.status }}</strong></div>
+        <div><small>Confirmed by</small><strong>{{ attempt.confirmation_source or 'Unconfirmed' }}</strong></div>
+        <div><small>Created</small><strong>{{ attempt.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</strong></div>
+        <div><small>Updated</small><strong>{{ attempt.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</strong></div>
+        {% if attempt.hyperswitch_payment_id and attempt.status in ['created', 'requires_payment_method', 'processing'] %}
+        <form action="/operations/donations/{{ donation.id }}/attempts/{{ attempt.id }}/reconcile" method="post">
+          <button class="secondary-button" type="submit">Reconcile status</button>
+        </form>
+        {% endif %}
+      </article>
+      {% else %}<p class="empty-state">No payment attempts.</p>{% endfor %}
+    </div>
+  </section>
+
+  <section>
+    <div class="ops-section-heading"><h2>Event timeline</h2><span>{{ events|length }}</span></div>
+    <ol class="event-timeline">
+      {% for event in events %}
+      <li>
+        <time>{{ event.created_at.strftime('%H:%M:%S') }}</time>
+        <div><strong>{{ event.event_type }}</strong><p>{{ event.source }} · {{ event.previous_state or '—' }} → {{ event.next_state or '—' }}</p>{% if event.reason %}<small>{{ event.reason }}</small>{% endif %}</div>
+      </li>
+      {% else %}<li class="empty-state">No events recorded.</li>{% endfor %}
+    </ol>
+  </section>
+
+  <section>
+    <div class="ops-section-heading"><h2>Append-only ledger</h2><span>{{ ledger|length }}</span></div>
+    <div class="ops-table-wrap">
+      <table class="ops-table">
+        <thead><tr><th>Effect</th><th>Amount</th><th>Currency</th><th>External reference</th><th>Recorded</th></tr></thead>
+        <tbody>
+        {% for entry in ledger %}
+          <tr><td>{{ entry.entry_type }}</td><td>{{ '%+.2f'|format(entry.amount_cents / 100) }}</td><td>{{ entry.currency }}</td><td class="mono">{{ entry.external_event_id or '—' }}</td><td>{{ entry.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td></tr>
+        {% else %}<tr><td colspan="5" class="empty-state">No verified financial effects.</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="fine-print">Donor email and payment credentials are intentionally excluded from this view.</p>
+</section>
+{% endblock %}

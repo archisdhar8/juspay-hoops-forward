@@ -13,6 +13,6 @@
       <div><dt>Status</dt><dd><span class="status-pill pending">{{ status|replace('_', ' ') }}</span></dd></div>
     </dl>
   </div>
-  <a class="secondary-button" href="/payment/return?payment_id={{ payment_id }}&donation_ref={{ donation_reference }}">Check again</a>
+  <a class="secondary-button" href="/payment/return?donation_id={{ donation.id }}&attempt_id={{ attempt_id }}">Verify again</a>
 </section>
 {% endblock %}

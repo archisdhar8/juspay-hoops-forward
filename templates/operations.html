@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Payment operations | Hoops Forward{% endblock %}
+{% block content %}
+<section class="ops-shell">
+  <div class="ops-heading">
+    <div>
+      <p class="eyebrow">Payment operations</p>
+      <h1>Contribution control room.</h1>
+      <p>Read-only operational state derived from donation intent, verified payment events, and append-only ledger effects.</p>
+    </div>
+    <span class="ops-mode">Sandbox</span>
+  </div>
+
+  <div class="metric-grid">
+    <article><span>Gross verified</span><strong>{{ money(overview.ledger.gross_contributions_cents) }}</strong></article>
+    <article><span>Pending</span><strong>{{ money(overview.ledger.pending_funds_cents) }}</strong></article>
+    <article><span>Refunds</span><strong>{{ money(overview.ledger.refunds_cents) }}</strong></article>
+    <article><span>Dispute holds</span><strong>{{ money(overview.ledger.disputes_cents) }}</strong></article>
+    <article><span>Known fees</span><strong>{{ money(overview.ledger.fees_cents) }}</strong><small>Unavailable until reported</small></article>
+    <article><span>Net available</span><strong>{{ money(overview.ledger.net_available_cents) }}</strong></article>
+  </div>
+
+  <section class="attention-panel">
+    <div class="ops-section-heading"><h2>Needs attention</h2><span>{{ overview.attention|length }}</span></div>
+    {% if overview.attention %}
+      <div class="attention-list">
+      {% for item in overview.attention %}
+        <article>
+          <strong>{{ item.label }}</strong>
+          <p>{{ item.detail }}</p>
+          {% if item.donation_id %}<a href="/operations/donations/{{ item.donation_id }}">Inspect donation →</a>{% endif %}
+        </article>
+      {% endfor %}
+      </div>
+    {% else %}
+      <p class="empty-state">No payment exceptions currently require review.</p>
+    {% endif %}
+  </section>
+
+  <section>
+    <div class="ops-section-heading"><h2>Donations</h2><span>{{ overview.donations|length }}</span></div>
+    <div class="ops-table-wrap">
+      <table class="ops-table">
+        <thead><tr><th>Donation</th><th>Campaign</th><th>Donor</th><th>Gross</th><th>Donation</th><th>Attempt</th><th>Confirmed by</th><th>Updated</th></tr></thead>
+        <tbody>
+        {% for row in overview.donations %}
+          <tr>
+            <td><a class="mono" href="/operations/donations/{{ row.donation_id }}">{{ row.donation_id }}</a></td>
+            <td>{{ row.campaign }}</td>
+            <td>{{ row.donor_display }}</td>
+            <td>{{ row.gross_display }}</td>
+            <td><span class="status-pill {{ 'success' if row.donation_status == 'succeeded' else 'pending' }}">{{ row.donation_status }}</span></td>
+            <td>{{ row.attempt_status }}</td>
+            <td>{{ row.confirmation_source }}</td>
+            <td>{{ row.updated_at.strftime('%b %d %H:%M') }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="8" class="empty-state">No donation intents recorded yet.</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</section>
+{% endblock %}

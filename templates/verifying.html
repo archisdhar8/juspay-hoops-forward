@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Verifying contribution | Hoops Forward{% endblock %}
+{% block content %}
+<section class="status-shell" data-verification data-donation-id="{{ donation_id }}" data-attempt-id="{{ attempt_id }}">
+  <div class="status-mark pending" aria-hidden="true">···</div>
+  <p class="eyebrow">Secure confirmation</p>
+  <h1>Verifying contribution.</h1>
+  <p class="page-lede" data-verification-message>We’re checking the authoritative payment result with Hyperswitch. You can safely leave this page; the donation and payment attempt are already recorded.</p>
+  <div class="confirmation-card">
+    <dl>
+      <div><dt>Donation ID</dt><dd class="mono">{{ donation_id }}</dd></div>
+      <div><dt>Payment attempt</dt><dd class="mono">{{ attempt_id }}</dd></div>
+      <div><dt>Status</dt><dd><span class="status-pill pending">Verifying</span></dd></div>
+    </dl>
+  </div>
+  <a class="secondary-button" href="/payment/return?donation_id={{ donation_id }}&attempt_id={{ attempt_id }}">Check again</a>
+</section>
+{% endblock %}

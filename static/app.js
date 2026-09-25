@@ -40,3 +40,26 @@ if (anonymousInput && donorNameInput) {
   anonymousInput.addEventListener("change", syncDonorName);
   syncDonorName();
 }
+
+const verification = document.querySelector("[data-verification]");
+if (verification) {
+  const donationId = verification.dataset.donationId;
+  const attemptId = verification.dataset.attemptId;
+  const message = verification.querySelector("[data-verification-message]");
+  fetch(`/api/donations/${encodeURIComponent(donationId)}/attempts/${encodeURIComponent(attemptId)}/verify`, {
+    method: "POST",
+    headers: { "Accept": "application/json" },
+  })
+    .then(async (response) => {
+      const data = await response.json();
+      if (!response.ok || !data.destination) {
+        throw new Error(data.message || "Verification is temporarily unavailable.");
+      }
+      window.location.assign(data.destination);
+    })
+    .catch((error) => {
+      if (message) {
+        message.textContent = `${error.message} Your donation is recorded; use Check again before trying another payment.`;
+      }
+    });
+}

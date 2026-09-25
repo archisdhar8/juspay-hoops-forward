@@ -30,18 +30,14 @@
       </div>
 
       <form action="/payments" method="post">
-        <input type="hidden" name="campaign_id" value="{{ donation.campaign_id }}">
-        <input type="hidden" name="amount" value="{{ '%.2f'|format(donation.gift_cents / 100) }}">
-        <input type="hidden" name="donor_name" value="{{ donation.donor_name }}">
-        <input type="hidden" name="donor_email" value="{{ donation.donor_email }}">
-        {% if donation.anonymous %}<input type="hidden" name="anonymous" value="true">{% endif %}
-        {% if donation.cover_fees %}<input type="hidden" name="cover_fees" value="true">{% endif %}
+        <input type="hidden" name="donation_id" value="{{ donation.id }}">
         <button class="primary-button full" type="submit" {% if not configured %}disabled{% endif %}>
           Continue to secure payment <span aria-hidden="true">→</span>
         </button>
       </form>
       {% if not configured %}<p class="config-warning">Add `HYPERSWITCH_API_KEY` to enable checkout.</p>{% endif %}
-      <div class="trust-row"><span>Server-validated total</span><span>Sandbox payment</span><span>No card data stored</span></div>
+      <p class="fine-print">{{ donation.organization.tax_disclosure }}</p>
+      <div class="trust-row"><span>Saved donation intent</span><span>Sandbox payment</span><span>No card data stored</span></div>
     </div>
   </div>
 </section>

@@ -15,6 +15,9 @@
     </dl>
   </div>
   <p class="fine-print">This is a sandbox demonstration. No real funds were transferred.</p>
-  <a class="secondary-button" href="/">Try the donation again</a>
+  <form action="/donations/{{ donation.id }}/retry" method="post">
+    <input type="hidden" name="attempt_id" value="{{ attempt_id }}">
+    <button class="secondary-button" type="submit">Try this donation again</button>
+  </form>
 </section>
 {% endblock %}
