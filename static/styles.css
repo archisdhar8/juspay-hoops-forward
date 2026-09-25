@@ -165,6 +165,7 @@ legend { width: 100%; margin-bottom: 18px; font-size: 14px; font-weight: 900; }
 .status-pill { padding: 4px 9px; border-radius: 99px; font-size: 11px; text-transform: uppercase; }
 .status-pill.success { color: #07583c; background: #d8f3e8; }
 .status-pill.pending { color: #123759; background: #d9eff4; }
+.status-pill.error { color: #76251d; background: #fae1dd; }
 
 .site-footer { padding: 28px clamp(20px, 5vw, 72px); display: flex; justify-content: space-between; gap: 20px; color: var(--muted); border-top: 1px solid var(--line); font-size: 11px; }
 

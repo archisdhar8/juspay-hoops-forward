@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Payment not completed | Hoops Forward{% endblock %}
+{% block content %}
+<section class="status-shell">
+  <div class="status-mark error" aria-hidden="true">!</div>
+  <p class="eyebrow">Payment not completed</p>
+  <h1>Your payment didn’t go through.</h1>
+  <p class="page-lede">Hyperswitch reports that this sandbox payment was {{ status|replace('_', ' ') }}. No donation was completed, so you can safely try again.</p>
+  <div class="confirmation-card">
+    <dl>
+      <div><dt>Donation reference</dt><dd>{{ donation_reference }}</dd></div>
+      <div><dt>Payment ID</dt><dd class="mono">{{ payment_id }}</dd></div>
+      <div><dt>Status</dt><dd><span class="status-pill error">{{ status|replace('_', ' ') }}</span></dd></div>
+      {% if campaign %}<div><dt>Campaign</dt><dd>{{ campaign.name }}</dd></div>{% endif %}
+    </dl>
+  </div>
+  <p class="fine-print">This is a sandbox demonstration. No real funds were transferred.</p>
+  <a class="secondary-button" href="/">Try the donation again</a>
+</section>
+{% endblock %}

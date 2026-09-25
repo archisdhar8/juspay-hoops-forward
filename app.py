@@ -158,7 +158,12 @@ async def payment_return(
         )
 
     status = str(payment.get("status", "unknown")).lower()
-    template = "success.html" if status == "succeeded" else "processing.html"
+    if status == "succeeded":
+        template = "success.html"
+    elif status in {"failed", "cancelled"}:
+        template = "failed.html"
+    else:
+        template = "processing.html"
     metadata = payment.get("metadata") or {}
     reference = metadata.get("donation_reference") or donation_ref or "Pending"
     response = templates.TemplateResponse(
