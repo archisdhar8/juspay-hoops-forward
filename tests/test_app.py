@@ -12,6 +12,9 @@ def test_home_page_renders() -> None:
     assert response.status_code == 200
     assert "Hoops Forward" in response.text
     assert "Sandbox demonstration" in response.text
+    assert "Know what you’re funding" in response.text
+    assert "$75 funds a registration scholarship" in response.text
+    assert "Donate anonymously" in response.text
 
 
 def test_review_recalculates_total_on_server() -> None:

@@ -10,16 +10,22 @@ CAMPAIGNS = {
         "name": "Equipment that lasts",
         "short_name": "Equipment",
         "description": "Balls, uniforms, and training gear for community programs.",
+        "need": "$25 equips one player",
+        "impact": "Replace worn basketballs, provide reversible jerseys, and stock shared training gear.",
     },
     "scholarships": {
         "name": "Play without barriers",
         "short_name": "Scholarships",
         "description": "Registration and travel scholarships for young athletes.",
+        "need": "$75 funds a registration scholarship",
+        "impact": "Help families cover league fees and transportation so cost never decides who plays.",
     },
     "court-access": {
         "name": "Open more courts",
         "short_name": "Court access",
         "description": "Safe gym time and neighborhood court restoration.",
+        "need": "$150 opens a court for one session",
+        "impact": "Pay for supervised gym time, lighting, cleanup, and repairs in underserved neighborhoods.",
     },
 }
 

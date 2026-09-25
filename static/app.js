@@ -1,5 +1,8 @@
 const amountInput = document.querySelector("#amount");
 const amountButtons = document.querySelectorAll("[data-amount]");
+const campaignLinks = document.querySelectorAll("[data-select-campaign]");
+const anonymousInput = document.querySelector("#anonymous");
+const donorNameInput = document.querySelector("#donor-name");
 
 if (amountInput && amountButtons.length) {
   amountButtons.forEach((button) => {
@@ -15,4 +18,25 @@ if (amountInput && amountButtons.length) {
       candidate.classList.toggle("selected", candidate.dataset.amount === amountInput.value);
     });
   });
+}
+
+campaignLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    const campaignInput = document.querySelector(
+      `input[name="campaign_id"][value="${link.dataset.selectCampaign}"]`
+    );
+    if (campaignInput) campaignInput.checked = true;
+  });
+});
+
+if (anonymousInput && donorNameInput) {
+  const syncDonorName = () => {
+    donorNameInput.required = !anonymousInput.checked;
+    donorNameInput.disabled = anonymousInput.checked;
+    donorNameInput.placeholder = anonymousInput.checked
+      ? "Hidden for anonymous gift"
+      : "Your full name";
+  };
+  anonymousInput.addEventListener("change", syncDonorName);
+  syncDonorName();
 }

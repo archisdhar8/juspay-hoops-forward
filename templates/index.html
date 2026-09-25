@@ -6,6 +6,10 @@
     <p class="eyebrow">Every kid deserves a place to play</p>
     <h1>Open the court.<br><em>Change the game.</em></h1>
     <p class="hero-lede">Your gift puts equipment in young athletes' hands, covers registration fees, and keeps community courts open.</p>
+    <div class="hero-actions">
+      <a class="primary-button" href="#donate">Make a donation <span aria-hidden="true">→</span></a>
+      <a class="text-link" href="#needs">See what your gift funds</a>
+    </div>
     <div class="impact-strip" aria-label="Campaign impact">
       <div><strong>1,240</strong><span>players supported</span></div>
       <div><strong>38</strong><span>community partners</span></div>
@@ -16,6 +20,36 @@
     <div class="court-lines"></div>
     <div class="ball"><span></span></div>
     <p>Built for<br>the next<br>possession.</p>
+  </div>
+</section>
+
+<section class="mission-section" aria-labelledby="mission-title">
+  <p class="eyebrow">The initiative</p>
+  <div class="mission-copy">
+    <h2 id="mission-title">Talent is everywhere.<br>Access isn’t.</h2>
+    <div>
+      <p>Hoops Forward helps community basketball programs remove the practical barriers that keep young people off the court.</p>
+      <p>We direct donations toward three immediate needs: dependable equipment, participation scholarships, and safe places to practice. Donors choose the need that matters most to them.</p>
+    </div>
+  </div>
+</section>
+
+<section class="needs-section" id="needs" aria-labelledby="needs-title">
+  <div class="needs-heading">
+    <p class="eyebrow">Current program needs</p>
+    <h2 id="needs-title">Know what you’re funding.</h2>
+    <p>Choose a priority below. Your selection carries into the donation form, and you can change it before payment.</p>
+  </div>
+  <div class="needs-grid">
+    {% for campaign_id, campaign in campaigns.items() %}
+    <article class="need-card">
+      <span class="need-number">0{{ loop.index }}</span>
+      <p class="need-label">{{ campaign.need }}</p>
+      <h3>{{ campaign.name }}</h3>
+      <p>{{ campaign.impact }}</p>
+      <a href="#donate" data-select-campaign="{{ campaign_id }}">Fund this need <span aria-hidden="true">→</span></a>
+    </article>
+    {% endfor %}
   </div>
 </section>
 
@@ -63,8 +97,8 @@
       <legend>3. Your details</legend>
       <div class="field-grid">
         <label>
-          <span>Name</span>
-          <input type="text" name="donor_name" maxlength="80" autocomplete="name" value="{{ form.donor_name if form else '' }}" placeholder="Your name">
+          <span>Full name</span>
+          <input id="donor-name" type="text" name="donor_name" maxlength="80" autocomplete="name" value="{{ form.donor_name if form else '' }}" placeholder="Your full name">
         </label>
         <label>
           <span>Email for receipt</span>
@@ -72,9 +106,9 @@
         </label>
       </div>
       <div class="check-row">
-        <label class="check-option">
-          <input type="checkbox" name="anonymous" {% if form and form.anonymous %}checked{% endif %}>
-          <span><strong>Make my gift anonymous</strong><small>Your name will not appear in campaign recognition.</small></span>
+        <label class="check-option compact-check">
+          <input id="anonymous" type="checkbox" name="anonymous" {% if form and form.anonymous %}checked{% endif %}>
+          <span><strong>Donate anonymously</strong><small>Your name won’t appear in donor recognition. We still collect an email for payment follow-up.</small></span>
         </label>
         <label class="check-option">
           <input type="checkbox" name="cover_fees" {% if form and form.cover_fees %}checked{% endif %}>
@@ -84,7 +118,7 @@
     </fieldset>
 
     <button class="primary-button" type="submit">Review my donation <span aria-hidden="true">→</span></button>
-    <p class="fine-print">No card information is collected on this site. Payment is completed on Hyperswitch's hosted sandbox checkout.</p>
+    <p class="fine-print">Your donation identity is collected here. Any cardholder and card information is collected securely on Hyperswitch’s hosted sandbox checkout—not by Hoops Forward.</p>
   </form>
 </section>
 {% endblock %}

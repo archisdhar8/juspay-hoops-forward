@@ -46,6 +46,10 @@ a { color: inherit; }
   background: rgba(246, 241, 232, .92);
 }
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 900; letter-spacing: -.02em; }
+.header-actions { display: flex; align-items: center; gap: 24px; font-size: 13px; font-weight: 800; }
+.header-actions a { text-decoration: none; }
+.header-actions > a:first-child:hover { color: var(--orange-dark); }
+.header-donate { padding: 10px 17px; color: var(--white); background: var(--orange); }
 .brand-mark, .receipt-icon {
   width: 38px;
   height: 38px;
@@ -76,6 +80,8 @@ h1 { font-size: clamp(48px, 7vw, 92px); }
 h1 em { color: var(--orange); font-weight: 500; }
 h2 { font-size: clamp(38px, 5vw, 64px); }
 .hero-lede, .page-lede { max-width: 660px; margin: 28px 0 0; color: #414b55; font-size: clamp(17px, 2vw, 21px); }
+.hero-actions { margin-top: 34px; display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
+.text-link { font-size: 13px; font-weight: 900; text-underline-offset: 5px; }
 .impact-strip { max-width: 720px; margin-top: 52px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); padding-top: 22px; }
 .impact-strip div { display: flex; flex-direction: column; gap: 2px; }
 .impact-strip strong { font-size: 22px; }
@@ -90,6 +96,23 @@ h2 { font-size: clamp(38px, 5vw, 64px); }
 .ball::before, .ball::after, .ball span { content: ""; position: absolute; inset: 0; border: 7px solid var(--ink); border-radius: 50%; }
 .ball::before { left: 47%; width: 30%; border-top: 0; border-bottom: 0; }
 .ball::after { top: 47%; height: 30%; border-left: 0; border-right: 0; }
+
+.mission-section { padding: clamp(80px, 10vw, 150px) clamp(20px, 7vw, 110px); border-bottom: 1px solid var(--line); }
+.mission-copy { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(45px, 8vw, 130px); align-items: end; }
+.mission-copy > div { max-width: 620px; color: #414b55; font-size: clamp(17px, 1.7vw, 21px); }
+.mission-copy > div p:first-child { color: var(--ink); font-weight: 750; }
+
+.needs-section { padding: clamp(75px, 9vw, 125px) clamp(20px, 7vw, 110px); color: var(--white); background: var(--navy); }
+.needs-heading { max-width: 720px; margin-bottom: 52px; }
+.needs-heading .eyebrow { color: #ffab6d; }
+.needs-heading > p:last-child { max-width: 620px; color: #c5d1dd; font-size: 17px; }
+.needs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255, 255, 255, .22); }
+.need-card { min-height: 360px; padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; background: var(--navy); }
+.need-number { color: #ffab6d; font-size: 12px; font-weight: 900; letter-spacing: .12em; }
+.need-label { margin: 48px 0 10px; color: var(--blue); font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.need-card h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(28px, 3vw, 42px); font-weight: 500; line-height: 1; letter-spacing: -.04em; }
+.need-card > p:last-of-type { color: #c5d1dd; }
+.need-card a { margin-top: auto; color: #ffab6d; font-size: 13px; font-weight: 900; text-underline-offset: 5px; }
 
 .donation-section { padding: clamp(70px, 9vw, 130px) clamp(20px, 7vw, 110px); display: grid; grid-template-columns: minmax(260px, .7fr) minmax(520px, 1.3fr); gap: clamp(50px, 8vw, 120px); }
 .section-intro { position: sticky; top: 40px; align-self: start; }
@@ -124,6 +147,10 @@ legend { width: 100%; margin-bottom: 18px; font-size: 14px; font-weight: 900; }
 .check-option input { width: 18px; height: 18px; accent-color: var(--orange); }
 .check-option span { display: flex; flex-direction: column; }
 .check-option small { color: var(--muted); }
+.compact-check { padding: 9px 0; }
+.compact-check strong { font-size: 13px; }
+.compact-check small { font-size: 11px; }
+.field-grid input:disabled { color: var(--muted); background: #eeeae2; }
 
 .primary-button, .secondary-button { display: inline-flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 54px; padding: 0 22px; border: 0; text-decoration: none; font-weight: 900; cursor: pointer; }
 .primary-button { color: var(--white); background: var(--orange); }
@@ -173,12 +200,15 @@ legend { width: 100%; margin-bottom: 18px; font-size: 14px; font-weight: 900; }
   .hero { grid-template-columns: 1fr; }
   .hero-art { min-height: 380px; }
   .donation-section { grid-template-columns: 1fr; }
+  .mission-copy { grid-template-columns: 1fr; }
+  .needs-grid { grid-template-columns: 1fr; }
+  .need-card { min-height: 310px; }
   .section-intro { position: static; }
   .review-layout { grid-template-columns: 1fr; }
   .back-link { margin-bottom: 40px; }
 }
 @media (max-width: 620px) {
-  .secure-label { display: none; }
+  .header-actions > a:first-child { display: none; }
   .hero-copy { padding-block: 70px; }
   .impact-strip { gap: 16px; }
   .impact-strip strong { font-size: 18px; }
