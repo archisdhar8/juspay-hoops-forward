@@ -240,9 +240,13 @@ async def verify_payment(donation_id: str, attempt_id: str) -> JSONResponse:
                 attempt_id=attempt_id,
                 provider=HyperswitchProvider(),
             )
-    except (PaymentProviderError, PaymentOperationError) as exc:
+    except PaymentProviderError as exc:
         return JSONResponse(
             {"status": "verification_error", "message": str(exc)}, status_code=502
+        )
+    except PaymentOperationError as exc:
+        return JSONResponse(
+            {"status": "verification_error", "message": str(exc)}, status_code=400
         )
     return JSONResponse(
         {
@@ -371,6 +375,11 @@ async def hyperswitch_webhook(request: Request) -> JSONResponse:
         return JSONResponse({"received": False, "error": "invalid_signature"}, status_code=401)
     try:
         payload = provider.parse_webhook(raw_payload)
+    except PaymentProviderError:
+        return JSONResponse(
+            {"received": False, "error": "invalid_payload"}, status_code=400
+        )
+    try:
         with session_scope() as session:
             result = await store_and_process_webhook(
                 session=session,

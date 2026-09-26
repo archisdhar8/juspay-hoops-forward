@@ -86,13 +86,20 @@ def parse_donation(
         raise DonationValidationError("Enter your name or choose anonymous donation.")
     if len(clean_name) > 80:
         raise DonationValidationError("Name must be 80 characters or fewer.")
+    if len(clean_email) > 254:
+        raise DonationValidationError("Email address must be 254 characters or fewer.")
     if not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", clean_email):
         raise DonationValidationError("Enter a valid email address.")
 
     try:
-        dollars = Decimal(amount.strip()).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+        raw_dollars = Decimal(amount.strip())
     except Exception as exc:
         raise DonationValidationError("Enter a valid donation amount.") from exc
+    if not raw_dollars.is_finite():
+        raise DonationValidationError("Enter a valid donation amount.")
+    if raw_dollars.as_tuple().exponent < -2:
+        raise DonationValidationError("Enter the donation amount in dollars and cents.")
+    dollars = raw_dollars.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
     gift_cents = int(dollars * 100)
     if gift_cents < MINIMUM_DONATION_CENTS:
